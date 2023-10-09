@@ -23,7 +23,9 @@
 #
 # netdata: https://my-netdata.io
 #
-export NETDATA_VERSION='1.42.4'
+
+#set version to 1.36.1 in case of 502 error on 1.44.2
+export NETDATA_VERSION='1.36.1'
 export NETDATA_PKG_NAME="netdata-v${NETDATA_VERSION}.gz.run"
 
 # iRedMail install netdata with the '.bin' package on Linux, it installs

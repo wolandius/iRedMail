@@ -351,20 +351,21 @@ else
 fi
 
 # Exit and prompt to use a supported Linux/BSD distribution
-if [ X"${UNSUPPORTED_RELEASE}" == X'YES' ]; then
-    cat <<EOF
-********* ERROR *********
-Release version of the operating system on this server is unsupported by
-iRedMail, please access below link to get the latest iRedMail and a list
-of supported Linux/BSD distributions and release versions.
-
-http://www.iredmail.org/download.html
-
-*************************
-EOF
-
-    exit 255
-fi
+### DISABLE unsupported OS check, RED OS is supported
+# if [ X"${UNSUPPORTED_RELEASE}" == X'YES' ]; then
+#     cat <<EOF
+# ********* ERROR *********
+# Release version of the operating system on this server is unsupported by
+# iRedMail, please access below link to get the latest iRedMail and a list
+# of supported Linux/BSD distributions and release versions.
+#
+# http://www.iredmail.org/download.html
+#
+# *************************
+# EOF
+#
+#     exit 255
+# fi
 
 # Check processor type.
 if [ X"${DISTRO}" == X'DEBIAN' ]; then

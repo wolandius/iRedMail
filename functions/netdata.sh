@@ -47,6 +47,7 @@ netdata_config()
     ECHO_INFO "Configure netdata (system and application monitor)."
 
     # Disable sending anonymouse statistics to netdata cloud.
+    mkdir -p ${NETDATA_CONF_DIR}
     touch ${NETDATA_CONF_DIR}/.opt-out-from-anonymous-statistics
 
     # Enable service.

@@ -35,3 +35,12 @@ it offers easy deployment, one-click upgrade, and tech support via the ticket
 system. Check our [website](https://www.iredmail.org/easy.html) for more details.
 
 There's also an all-in-one Docker edition here: [iredmail/dockerized](https://github.com/iredmail/dockerized).
+
+### RED OS build
+перед сборкой необходимо скачать файлы исключенные из git. файлы скачиваются скриптом iRedmail.sh из https://dl.iredmail.org/yum/misc/
+- misc/iRedAdmin-2.5.tar.gz
+- misc/mlmmjadmin-3.1.8.tar.gz
+- misc/iRedAPD-5.3.3.tar.gz
+- misc/netdata-v1.36.1.gz.run
+- misc/roundcubemail-1.6.3-complete.tar.gz
+

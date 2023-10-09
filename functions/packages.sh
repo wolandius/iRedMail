@@ -78,14 +78,16 @@ install_all()
     if [ X"${DISTRO}" == X'RHEL' -a X"${DISTRO_VERSION}" == X'8' ]; then
         # If `dnf module enable` failed, please follow command output to
         # remove installed php and reset module 'php'.
-        dnf module enable -y php:8.0
-        dnf module switch-to -y php:8.0
+        # dnf module enable -y php:8.0
+        # dnf module switch-to -y php:8.0
+        #### REPLACE module to enable RED OS php81 repo
+        dnf install php81-release -y
     fi
 
     # Python 3.
     if [ X"${DISTRO}" == X'RHEL' ]; then
         # `python3` is 3.6. `python3-*` packages are bulit for Python 3.6.
-        ALL_PKGS="${ALL_PKGS} python3 python3-pip python3-pip-wheel python3-requests"
+        ALL_PKGS="${ALL_PKGS} python3 python3-pip python3-requests"
     elif [ X"${DISTRO}" == X'DEBIAN' -o X"${DISTRO}" == X'UBUNTU' ]; then
         ALL_PKGS="${ALL_PKGS} python3-setuptools python3-pip python3-wheel python3-requests"
     elif [ X"${DISTRO}" == X'OPENBSD' ]; then
@@ -286,7 +288,7 @@ install_all()
     # Amavisd-new, ClamAV, Altermime.
     ENABLED_SERVICES="${ENABLED_SERVICES} ${CLAMAV_CLAMD_SERVICE_NAME} ${AMAVISD_RC_SCRIPT_NAME}"
     if [ X"${DISTRO}" == X'RHEL' ]; then
-        ALL_PKGS="${ALL_PKGS} amavis spamassassin altermime perl-Mail-SPF lz4 clamav clamav-update clamav-server clamav-server-systemd"
+        ALL_PKGS="${ALL_PKGS} amavisd-new spamassassin altermime perl-Mail-SPF lz4 clamav clamav-update clamav-server clamav-server-systemd"
         ENABLED_SERVICES="${ENABLED_SERVICES} clamav-freshclam"
 
         # RHEL uses service name 'clamd@amavisd' instead of clamd.
@@ -372,29 +374,33 @@ install_all()
             [ X"${BACKEND}" == X'PGSQL' ] && ALL_PKGS="${ALL_PKGS} sope49-gdl1-postgresql"
 
             if [ X"${BACKEND}" == X'OPENLDAP' -o X"${BACKEND}" == X'MYSQL' ]; then
-                ALL_PKGS="${ALL_PKGS} mysql-libs"
+                #ALL_PKGS="${ALL_PKGS} mysql-libs"
+                # replace  mysql-libs with mariadb-connector-c-devel, because this one provides libmysqlclient.so
+                ALL_PKGS="${ALL_PKGS} mariadb-connector-c-devel"
             fi
+            ### COMMENT import in case of self RED OS sogo rpms
+            # ${FETCH_CMD} \
+            #     -O /etc/pki/rpm-gpg/sogo-nightly \
+            #     https://keys.openpgp.org/vks/v1/by-fingerprint/74FFC6D72B925A34B5D356BDF8A27B36A6E2EAE9
 
-            ${FETCH_CMD} \
-                -O /etc/pki/rpm-gpg/sogo-nightly \
-                https://keys.openpgp.org/vks/v1/by-fingerprint/74FFC6D72B925A34B5D356BDF8A27B36A6E2EAE9
-
-            if [ X"$?" != X'0' ]; then
-                ECHO_ERROR "Failed in import GPG key for SOGo yum repository."
-                ECHO_ERROR "Please try to import it manually with command below:"
-                ECHO_ERROR "wget -O /etc/pki/rpm-gpg/sogo-nightly https://keys.openpgp.org/vks/v1/by-fingerprint/74FFC6D72B925A34B5D356BDF8A27B36A6E2EAE9"
-            fi
+            # if [ X"$?" != X'0' ]; then
+            #     ECHO_ERROR "Failed in import GPG key for SOGo yum repository."
+            #     ECHO_ERROR "Please try to import it manually with command below:"
+            #     ECHO_ERROR "wget -O /etc/pki/rpm-gpg/sogo-nightly https://keys.openpgp.org/vks/v1/by-fingerprint/74FFC6D72B925A34B5D356BDF8A27B36A6E2EAE9"
+            # fi
 
             # Copy yum repo file
-            ECHO_INFO "Add yum repo for SOGo: ${YUM_REPOS_DIR}/sogo.repo."
-            cat > ${YUM_REPOS_DIR}/sogo.repo <<EOF
-[SOGo]
-name=SOGo Groupware
-baseurl=${SOGO_PKG_MIRROR}/nightly/${SOGO_VERSION}/rhel/\$releasever/\$basearch
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/sogo-nightly
-EOF
+            ### COMMENT in case of self RED OS sogo rpms
+
+#             ECHO_INFO "Add yum repo for SOGo: ${YUM_REPOS_DIR}/sogo.repo."
+#             cat > ${YUM_REPOS_DIR}/sogo.repo <<EOF
+# [SOGo]
+# name=SOGo Groupware
+# baseurl=${SOGO_PKG_MIRROR}/nightly/${SOGO_VERSION}/rhel/\$releasever/\$basearch
+# enabled=1
+# gpgcheck=1
+# gpgkey=file:///etc/pki/rpm-gpg/sogo-nightly
+# EOF
 
         elif [ X"${DISTRO}" == X'DEBIAN' -o X"${DISTRO}" == X'UBUNTU' ]; then
             ALL_PKGS="${ALL_PKGS} memcached sogo sogo-activesync"

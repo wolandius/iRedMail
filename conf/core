@@ -445,13 +445,14 @@ add_postfix_alias()
 # Install/Remove binary packages on RHEL/CentOS.
 install_pkg_rhel()
 {
-    ECHO_INFO "Installing package(s): $@"
-    ${YUM} -y --disablerepo=rpmforge,ius,remi,remi-php74,remi-safe,atrpms install $@
-
-    # Leave a mark if package installation failed.
-    if [ X"$?" != X'0' ]; then
-        echo '' > ${RUNTIME_DIR}/.pkg_install_failed
-    fi
+    ### We dont need to disable theese repos in RED OS
+    # ECHO_INFO "Installing package(s): $@"
+    ${YUM} -y install $@
+    #
+    # # Leave a mark if package installation failed.
+    # if [ X"$?" != X'0' ]; then
+    #     echo '' > ${RUNTIME_DIR}/.pkg_install_failed
+    # fi
 }
 
 remove_pkg_rhel()

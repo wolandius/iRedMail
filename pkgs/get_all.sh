@@ -242,15 +242,15 @@ check_new_iredmail()
 
         rm -f new_version* &>/dev/null
     fi
-
-    if [ X"${UPDATE_AVAILABLE}" == X'YES' ]; then
-        echo ''
-        ECHO_ERROR "Your iRedMail version (${PROG_VERSION}) is out of date, please"
-        ECHO_ERROR "download the latest version and try again:"
-        ECHO_ERROR "http://www.iredmail.org/download.html"
-        echo ''
-        exit 255
-    fi
+    ### DISABLE updates check for RED OS
+    # if [ X"${UPDATE_AVAILABLE}" == X'YES' ]; then
+    #     echo ''
+    #     ECHO_ERROR "Your iRedMail version (${PROG_VERSION}) is out of date, please"
+    #     ECHO_ERROR "download the latest version and try again:"
+    #     ECHO_ERROR "http://www.iredmail.org/download.html"
+    #     echo ''
+    #     exit 255
+    # fi
 
     echo 'export status_check_new_iredmail="DONE"' >> ${STATUS_FILE}
 }
@@ -309,7 +309,9 @@ install_missing_pkg
 
 if [ X"${DISTRO}" == X"RHEL" ]; then
     # Create yum repository.
-    check_status_before_run create_repo_rhel
+    ### disable check, we dont need EPEL repos on RED OS
+    #check_status_before_run create_repo_rhel
+    echo ""
 elif [ X"${DISTRO}" == X'DEBIAN' -o X"${DISTRO}" == X'UBUNTU' ]; then
     if [ X"${DISTRO}" == X'UBUNTU' ]; then
         for repo in multiverse universe; do
