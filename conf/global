@@ -237,7 +237,9 @@ export UNSUPPORTED_RELEASE='NO'
 
 # Detect distro name and release version.
 if [ X"${KERNEL_NAME}" == X'LINUX' ]; then
-    export DISTRO_VERSION=$(awk -F'"' '/^VERSION_ID=/ {print $2}' /etc/os-release)
+   # export DISTRO_VERSION=$(awk -F'"' '/^VERSION_ID=/ {print $2}' /etc/os-release)
+    #in RED OS we dont have VERSION_ID=, we have VERSION=
+    export DISTRO_VERSION=$(awk -F'"' '/^VERSION=/ {print $2}' /etc/os-release)
 
     # Debian:
     #   - 11: bullseye
@@ -250,7 +252,7 @@ if [ X"${KERNEL_NAME}" == X'LINUX' ]; then
     # Directory of RC scripts.
     export DIR_RC_SCRIPTS='/etc/init.d'
 
-    if [ -f /etc/redhat-release ]; then
+    if [ -f /etc/redos-release ]; then
         # RHEL/CentOS/Rocky/Alma
         export DISTRO='RHEL'
 
@@ -277,7 +279,7 @@ if [ X"${KERNEL_NAME}" == X'LINUX' ]; then
                 export UNSUPPORTED_RELEASE='YES'
             fi
         else
-            if grep -i '^Red Hat Enterprise Linux' /etc/redhat-release &>/dev/null; then
+            if grep -i '^RED' /etc/redos-release &>/dev/null; then
                 # RHEL
                 export DISTRO_CODENAME='rhel'
             else

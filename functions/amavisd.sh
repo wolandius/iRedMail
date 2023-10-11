@@ -169,9 +169,9 @@ amavisd_config()
     perl -pi -e 's#PH_LOCAL_ADDRESS#$ENV{LOCAL_ADDRESS}#g' ${AMAVISD_CONF}
     perl -pi -e 's#PH_AMAVISD_MAX_SERVERS#$ENV{AMAVISD_MAX_SERVERS}#g' ${AMAVISD_CONF}
 
-    if [ X"${DISTRO}" == X'RHEL' ]; then
-        usermod -G ${SYS_GROUP_AMAVISD} ${SYS_USER_CLAMAV} >> ${INSTALL_LOG} 2>&1
-    fi
+#    if [ X"${DISTRO}" == X'RHEL' ]; then
+#        usermod -G ${SYS_GROUP_AMAVISD} ${SYS_USER_CLAMAV} >> ${INSTALL_LOG} 2>&1
+#    fi
 
     if [ X"${DISTRO}" == X'RHEL' \
         -o X"${DISTRO}" == X'FREEBSD' \

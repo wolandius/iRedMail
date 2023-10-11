@@ -80,8 +80,11 @@ install_all()
         # remove installed php and reset module 'php'.
         # dnf module enable -y php:8.0
         # dnf module switch-to -y php:8.0
-        #### REPLACE module to enable RED OS php81 repo
-        dnf install php81-release -y
+        #### REPLACE module to enable RED OS php81 repo, BUT ONLY FOR RED OS < 8.0
+        #
+        if [ X"${DISTRO_VERSION}" != X'8' ]; then
+          dnf install php81-release -y
+        fi
     fi
 
     # Python 3.
@@ -286,10 +289,10 @@ install_all()
     fi
 
     # Amavisd-new, ClamAV, Altermime.
-    ENABLED_SERVICES="${ENABLED_SERVICES} ${CLAMAV_CLAMD_SERVICE_NAME} ${AMAVISD_RC_SCRIPT_NAME}"
+    #ENABLED_SERVICES="${ENABLED_SERVICES} ${CLAMAV_CLAMD_SERVICE_NAME} ${AMAVISD_RC_SCRIPT_NAME}"
     if [ X"${DISTRO}" == X'RHEL' ]; then
-        ALL_PKGS="${ALL_PKGS} amavisd-new spamassassin altermime perl-Mail-SPF lz4 clamav clamav-update clamav-server clamav-server-systemd"
-        ENABLED_SERVICES="${ENABLED_SERVICES} clamav-freshclam"
+        ALL_PKGS="${ALL_PKGS} amavisd-new spamassassin altermime perl-Mail-SPF lz4"
+        ENABLED_SERVICES="${ENABLED_SERVICES}"
 
         # RHEL uses service name 'clamd@amavisd' instead of clamd.
         DISABLED_SERVICES="${DISABLED_SERVICES} clamd spamassassin"
@@ -308,7 +311,7 @@ install_all()
         ALL_PKGS="${ALL_PKGS} rpm2cpio amavisd-new amavisd-new-utils p5-Mail-SPF p5-Mail-SpamAssassin clamav unrar altermime"
         PKG_SCRIPTS="${PKG_SCRIPTS} ${CLAMAV_CLAMD_SERVICE_NAME} ${CLAMAV_FRESHCLAMD_RC_SCRIPT_NAME} ${AMAVISD_RC_SCRIPT_NAME}"
     fi
-
+    DISABLED_SERVICES="${DISABLED_SERVICES} clamd@amavisd spamassassin amavisd"
     # mlmmj: mailing list manager
     ALL_PKGS="${ALL_PKGS} mlmmj"
 
