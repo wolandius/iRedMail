@@ -1,2 +1,3 @@
 .idea/*
-pkgs/misc/*
+runtime/*
+config*
