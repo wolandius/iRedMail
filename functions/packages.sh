@@ -368,6 +368,7 @@ install_all()
     # SOGo
     if [ X"${USE_SOGO}" == X'YES' ]; then
         ENABLED_SERVICES="${ENABLED_SERVICES} ${SOGO_RC_SCRIPT_NAME} ${MEMCACHED_RC_SCRIPT_NAME}"
+        DISABLED_SERVICES="${DISABLED_SERVICES} httpd.service httpd.socket"
 
         if [ X"${DISTRO}" == X'RHEL' ]; then
             ALL_PKGS="${ALL_PKGS} sogo sogo-activesync libwbxml sogo-ealarms-notify sogo-tool"
