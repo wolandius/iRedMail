@@ -84,21 +84,22 @@ prepare_dirs()
 fetch_misc()
 {
     # Fetch all misc packages.
-    cd ${PKG_MISC_DIR}
-
-    misc_total=$(( $(echo ${MISCLIST} | wc -w | awk '{print $1}') ))
-    misc_count=1
-
-    ECHO_INFO "Fetching source tarballs ..."
-
-    for i in ${MISCLIST}; do
-        url="${IREDMAIL_MIRROR}/yum/misc/${i}"
-        ECHO_INFO "+ ${misc_count} of ${misc_total}: ${url}"
-
-        ${FETCH_CMD} "${url}"
-
-        misc_count=$((misc_count + 1))
-    done
+#    cd ${PKG_MISC_DIR}
+#
+#    misc_total=$(( $(echo ${MISCLIST} | wc -w | awk '{print $1}') ))
+#    misc_count=1
+#
+#    ECHO_INFO "Fetching source tarballs ..."
+#
+#    for i in ${MISCLIST}; do
+#        url="${IREDMAIL_MIRROR}/yum/misc/${i}"
+#        ECHO_INFO "+ ${misc_count} of ${misc_total}: ${url}"
+#
+#        ${FETCH_CMD} "${url}"
+#
+#        misc_count=$((misc_count + 1))
+#    done
+  echo ""
 }
 
 verify_downloaded_packages()

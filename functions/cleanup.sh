@@ -223,10 +223,10 @@ cleanup_update_compile_spamassassin_rules()
 cleanup_update_clamav_signatures()
 {
     # Update clamav before start clamav-clamd service.
-    if [ X"${FRESHCLAM_UPDATE_IMMEDIATELY}" == X'YES' ]; then
-        ECHO_INFO "Updating ClamAV database (freshclam), please wait ..."
-        freshclam 2>/dev/null | grep -v 'locked by another process'
-    fi
+#    if [ X"${FRESHCLAM_UPDATE_IMMEDIATELY}" == X'YES' ]; then
+#        ECHO_INFO "Updating ClamAV database (freshclam), please wait ..."
+#        freshclam 2>/dev/null | grep -v 'locked by another process'
+#    fi
 
     echo 'export status_cleanup_update_clamav_signatures="DONE"' >> ${STATUS_FILE}
 }
